@@ -43,10 +43,10 @@ useEffect(()=>{
 const fetchRestaurantList=async ()=>{
 try{
   
-  const data=await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.8370262&lng=91.2841007&page_type=DESKTOP_WEB_LISTING");
+  const data=await fetch("https://corsproxy.org/?"+encodeURIComponent("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.8370262&lng=91.2841007&page_type=DESKTOP_WEB_LISTING"));
   //setProgress(50);
   const json=await data.json();
-  async function checkJsonData(jsonData){
+  const checkJsonData = async (jsonData) => {
     for(let i=0;i<jsonData?.data?.cards.length;i++){
       let checkData = jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
       if(checkData!==undefined){
@@ -95,7 +95,7 @@ try{
           );
         })}
       </RestroList>
-      <Check>{allRestaurants?.length} Data</Check>
+      <Check>{filterRestaurants?.length} Data</Check>
     </Container>
   );
 }

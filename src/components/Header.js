@@ -7,25 +7,38 @@ import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
  width: 100%;
+ //height: 10vh;
+ border: 2px solid red;
  display: flex;
- align-items: center;
+ //align-items: center;
  justify-content: space-between;
  padding: 3rem 19rem;
  position: fixed;
  top: 0;
  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
  background: #fff;
+ @media(max-width: 768px) {
+  padding: 3rem;
+  top: 92.5%;
+}
 `
 const LogoLocation = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
+@media(max-width: 768px) {
+  display: none;
+}
 `
 const LogoImg = styled.img`
 width: 20rem;
 `
 const Unorder = styled.ul`
 display: flex;
+@media(max-width: 768px) {
+  width: 100%;
+  justify-content: space-between;
+}
 `
 const List = styled.li`
 list-style: none;
@@ -37,10 +50,15 @@ cursor: pointer;
 &:hover {
     color: orange;
 }
+@media(max-width: 768px) {
+ //padding: 2rem;
+ flex-direction: column;
+}
 `
 const Span = styled.span`
 padding-left: 1rem;
 font-size: 2.5rem;
+color: gray;
 `
 const Header = () => {
     const navigate = useNavigate();

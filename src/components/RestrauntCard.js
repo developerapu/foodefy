@@ -9,10 +9,10 @@ padding: 3rem;
 &:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-`
+`;
 const FoodImg = styled.img`
 width: 100%;
-`
+`;
 const Name = styled.h2`
 font-size: 2.2rem;
 font-weight: 500;
