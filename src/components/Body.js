@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import RestrauntCard from "./RestrauntCard";
 import styled from "styled-components";
 import NoRestro from "./NoRestro";
 import FilterNav from "./FilterNav";
+import {AppContext} from "../context/AppContext";
 
 const Container = styled.div`
   width: 100%;
@@ -17,6 +18,10 @@ const RestroList = styled.div`
   flex-wrap: wrap;
   gap: 5vh 1vw;
   padding-bottom: 5rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 3rem 5rem;
+  }
 `;
 const SearchBox = styled.div`
 
@@ -30,11 +35,12 @@ const filterData = (searchTxt, restaurants) => {
   return restaurants.filter((restaurant) => restaurant?.info?.name.toLowerCase()?.includes(searchTxt.toLowerCase()));
 }
 function Body() {
+  const {setCities, setApiData} = useContext(AppContext);
   const [searchTxt, setSearchTxt] = useState();
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filterRestaurants, setFilterRestaurants] = useState([]);
   const [totalRestaurant, setTotalRestaurant] = useState();
-console.log(allRestaurants);
+//console.log(allRestaurants);
 
 useEffect(()=>{
   fetchRestaurantList();
@@ -43,9 +49,16 @@ useEffect(()=>{
 const fetchRestaurantList=async ()=>{
 try{
   
-  const data=await fetch("https://corsproxy.org/?"+encodeURIComponent("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.8370262&lng=91.2841007&page_type=DESKTOP_WEB_LISTING"));
+  //const data=await fetch("https://corsproxy.org/?"+encodeURIComponent("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.1685786&lng=79.9338798&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"));
   //setProgress(50);
-  const json=await data.json();
+   const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.0827989&lng=80.2754246&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+
+  const logData = await data.json();
+  console.log(logData);
+
+  //const json=await data.json();
+  setApiData(logData);
+
   const checkJsonData = async (jsonData) => {
     for(let i=0;i<jsonData?.data?.cards.length;i++){
       let checkData = jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
@@ -55,11 +68,29 @@ try{
     }
   }
 
-  const resData=await checkJsonData(json);
-  console.log(resData);
+  const resData=await checkJsonData(logData);
+  //console.log(resData);
    setAllRestaurants(resData);
    setTotalRestaurant(resData?.length);
   setFilterRestaurants(resData);
+
+  // to find cities
+  
+  const findCities = async (jsonData) => {
+    for(let i=0;i<jsonData?.data?.cards.length;i++){
+      let checkData = jsonData?.data?.cards[i]?.card?.card;
+      // id = jsonData?.data?.cards[i]?.card?.card?.id;
+      //console.log(id)
+      if(checkData?.cities!==undefined && checkData?.id === "footer_content"){
+        return checkData?.cities;
+      }
+    }
+  }
+  const allCities =await findCities(logData);
+  setCities(allCities);
+  //console.log(jsonData?.data?.cards[i]?.card?.card?.cities);
+
+  //console.log(allCities, "cities");
 
 }catch(e){
   console.log(e);
