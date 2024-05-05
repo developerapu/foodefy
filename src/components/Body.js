@@ -4,6 +4,9 @@ import styled from "styled-components";
 import NoRestro from "./NoRestro";
 import FilterNav from "./FilterNav";
 import {AppContext} from "../context/AppContext";
+import { useAxios } from "../networks/axios";
+import Cuisines from "./Cuisines/Cuisines";
+import ChainRestro from "./ChainRestro";
 
 const Container = styled.div`
   width: 100%;
@@ -11,12 +14,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 12rem;
+  background: rgb(255, 255, 255);
 `;
 const RestroList = styled.div`
   width: 79vw;
   display: flex;
   flex-wrap: wrap;
-  gap: 5vh 1vw;
+  gap: 3rem 1rem;
   padding-bottom: 5rem;
   @media (max-width: 768px) {
     width: 100%;
@@ -35,62 +39,64 @@ const filterData = (searchTxt, restaurants) => {
   return restaurants.filter((restaurant) => restaurant?.info?.name.toLowerCase()?.includes(searchTxt.toLowerCase()));
 }
 function Body() {
-  const {setCities, setApiData} = useContext(AppContext);
-  const [searchTxt, setSearchTxt] = useState();
+  const {setCities, setApiData, location, setCuisines, setRestaurants} = useContext(AppContext);
+  const [stateName, setStateName] = useState('');
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filterRestaurants, setFilterRestaurants] = useState([]);
   const [totalRestaurant, setTotalRestaurant] = useState();
-//console.log(allRestaurants);
+  const fetchApi = useAxios();
 
 useEffect(()=>{
   fetchRestaurantList();
-},[]);
+},[location]);
 
 const fetchRestaurantList=async ()=>{
 try{
-  
-  //const data=await fetch("https://corsproxy.org/?"+encodeURIComponent("https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.1685786&lng=79.9338798&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"));
-  //setProgress(50);
-   const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.0827989&lng=80.2754246&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+    const response = await fetchApi(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=${location?.latitude}&lng=${location?.longitude}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`, "get");
 
-  const logData = await data.json();
-  console.log(logData);
+    console.log(response);
+  setApiData(response);
 
-  //const json=await data.json();
-  setApiData(logData);
-
-  const checkJsonData = async (jsonData) => {
-    for(let i=0;i<jsonData?.data?.cards.length;i++){
-      let checkData = jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+  const checkResData = async (data) => {
+    for(let i=0;i<data?.data?.data?.cards?.length;i++){
+      let checkData = data?.data?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
       if(checkData!==undefined){
         return checkData;
       }
     }
   }
 
-  const resData=await checkJsonData(logData);
-  //console.log(resData);
+  const resData=await checkResData(response);
    setAllRestaurants(resData);
    setTotalRestaurant(resData?.length);
   setFilterRestaurants(resData);
+  setRestaurants(resData);
 
   // to find cities
   
-  const findCities = async (jsonData) => {
-    for(let i=0;i<jsonData?.data?.cards.length;i++){
-      let checkData = jsonData?.data?.cards[i]?.card?.card;
-      // id = jsonData?.data?.cards[i]?.card?.card?.id;
-      //console.log(id)
+  const findCities = async (data) => {
+    for(let i=0;i<data?.data?.data?.cards.length;i++){
+      let checkData = data?.data?.data?.cards[i]?.card?.card;
       if(checkData?.cities!==undefined && checkData?.id === "footer_content"){
         return checkData?.cities;
       }
     }
   }
-  const allCities =await findCities(logData);
+  const allCities =await findCities(response);
   setCities(allCities);
-  //console.log(jsonData?.data?.cards[i]?.card?.card?.cities);
 
-  //console.log(allCities, "cities");
+  // To Find Cuisines
+
+  const findCuisines = async (data) => {
+    for(let i=0;i<data?.data?.data?.cards.length;i++){
+      let checkData = data?.data?.data?.cards[i]?.card?.card;
+      if(checkData?.imageGridCards?.info!==undefined && checkData?.id === "whats_on_your_mind"){
+        return checkData?.imageGridCards?.info;
+      }
+    }
+  }
+  const allCuisines =await findCuisines(response);
+  setCuisines(allCuisines);
 
 }catch(e){
   console.log(e);
@@ -98,24 +104,12 @@ try{
   
 }
 
+
   return  (
     <Container>
-      {/* <SearchBox>
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTxt}
-          onChange={(e) => {setSearchTxt(e.target.value); const data = filterData(searchTxt, allRestaurants);
-            setFilterRestaurants(data);}}
-        />
-        <button
-          onClick={() => {
-            const data = filterData(searchTxt, allRestaurants);
-            setFilterRestaurants(data);
-          }}
-        >Search</button>
-      </SearchBox> */}
-      <FilterNav totalRestaurant={totalRestaurant}/>
+      {/* <FilterNav totalRestaurant={totalRestaurant}/> */}
+      <Cuisines/>
+      <ChainRestro/>
       <RestroList>
         {!filterRestaurants ? <NoRestro/> : filterRestaurants?.map((restaurant) => {
           return (
@@ -126,7 +120,6 @@ try{
           );
         })}
       </RestroList>
-      <Check>{filterRestaurants?.length} Data</Check>
     </Container>
   );
 }

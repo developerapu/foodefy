@@ -1,6 +1,7 @@
-import { RouterProvider } from "react-router-dom";
 import styled from 'styled-components';
-import { AppRoutes } from './router/index';
+import Header from './components/Header/Header';
+import Footer from "./components/Footer";
+import Body from "./components/Body";
 const AppContatiner = styled.div`
   width: 100%;
 `;
@@ -9,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <AppContatiner>
-     <RouterProvider router={AppRoutes}/>
+        <Body/>
     </AppContatiner>
     </div>
   );

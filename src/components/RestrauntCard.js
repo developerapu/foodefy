@@ -3,13 +3,15 @@ import { IMG_CDN } from "../config";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 19vw;
+  width: 36.5rem;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  //padding: 3rem;
+  transition: transform .2s; 
+  padding: 2rem;
+  gap: 2rem;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    transform: scale(0.97);
   }
   @media (max-width: 768px) {
     width: 100%;
@@ -18,10 +20,13 @@ const Container = styled.div`
   }
 `;
 const FoodImg = styled.img`
-  width: 100%;
+  width: 33rem;
+  height: 23rem;
+  object-fit: cover;
+  border-radius: 2rem;
   @media (max-width: 768px) {
     width: 30%;
-    border-radius: 2rem;
+    height: auto;
   }
 `;
 const Name = styled.h2`
@@ -89,7 +94,7 @@ function RestrauntCard(props) {
   } = props.restaurant;
   //console.log(cloudinaryImageId, name, cuisines, avgRating, slaString, costForTwoString,aggregatedDiscountInfo);
   return (
-    <Container>
+    <Container className="main">
       <FoodImg src={IMG_CDN + cloudinaryImageId} alt="" />
       <DetailDiv>
         <Name>{name}</Name>

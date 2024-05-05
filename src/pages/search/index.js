@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SearchBtnImg from '../assets/images/searchBtn.svg';
 import CrossBtnImg from '../assets/images/crossBtn.svg';
+import Header from './Header';
 
 const Container = styled.div`
 width: 100vw;
 display: flex;
 flex-direction: column;
+//align-items: center;
+//justify-content: center;
+//padding-top: 20rem;
 `;
 const SearchBox = styled.div`
 width: 100%;
@@ -46,6 +50,7 @@ function SearchCom() {
   const [searchValue, setSearchValue] = useState("");
   return (
     <Container>
+      <Header/>
       <SearchBox>
       <Input type="search" name="" id="" placeholder='Search for restaurant and food' value={searchValue} onChange={(e)=> setSearchValue(e.target.value)}/>
       {searchValue ? <Button><CrossImg src={CrossBtnImg} alt="" /></Button> :

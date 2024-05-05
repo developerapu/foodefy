@@ -12,6 +12,9 @@ const Container = styled.div`
 `;
 const RestroNo = styled.h2`
   font-size: 4rem;
+  @media(max-width: 768px) {
+    display: none;
+  }
 `;
 const Unorder = styled.ul`
   display: flex;

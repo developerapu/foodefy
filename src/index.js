@@ -1,15 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AppProvider } from "./context/AppContext";
+import styled from 'styled-components';
+import { AppRoutes } from './router/index';
+const AppContatiner = styled.div`
+  width: 100%;
+`;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AppProvider>
-      <App />
+      <AppContatiner>
+        <RouterProvider router={AppRoutes} />
+      </AppContatiner>
     </AppProvider>
   </React.StrictMode>
 );

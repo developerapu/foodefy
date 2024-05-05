@@ -198,22 +198,11 @@ const companyList = [
 ];
 const contactList = ["Help & Support", "Partner With Us", "Ride With Us"];
 const legalList = ["Terms & Conditions", "Privacy Policy", "Cookie Policy"];
-const stateList = [
-  "Bangalore",
-  "Gurgaon",
-  "Hyderabad",
-  "Delhi",
-  "Mumbai",
-  "Pune",
-];
 
 function Footer() {
   const { cities, apiData } = useContext(AppContext);
   const [showAllCities, setShowSAllCities] = useState(false);
-  //console.log(cities, apiData);
-  //console.log(companyList?.slice(0,3));
   const sliceValue = Math.floor(cities?.slice(6)?.length / 4);
-  console.log(sliceValue);
   return (
     <Container>
       <GoogleButtons>
