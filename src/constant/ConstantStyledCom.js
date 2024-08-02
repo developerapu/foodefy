@@ -16,8 +16,9 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   &:hover {
-    opacity: ${(props)=> (props.hoverOpacity ? props.hoverOpacity : "1")};
+    opacity: ${(props)=> (props.hoverOpacity ? props.hoverOpacity : "0.6")};
   }
 `;
 
@@ -30,4 +31,5 @@ export const Para = styled.p`
   margin-top: ${(props)=> props.marginTop ? props.marginTop : '0'};
   text-decoration: ${(props)=> props.textDecoration ? props.textDecoration : '0'};
   text-underline-offset: ${(props)=> props.gap ? props.gap : "0"};
+  border: ${(props) => props.border ? props.border : "none"};
 `;

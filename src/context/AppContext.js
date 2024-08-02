@@ -3,7 +3,7 @@ import { createContext, useContext, useState} from "react";
 export const AppContext = createContext({
     cities: [],
     apiData: [],
-    cuisines: [],
+    cuisines: {},
     restaurants: [],
     location: {latitude: 23.831457, longitude: 91.2867777}
 });

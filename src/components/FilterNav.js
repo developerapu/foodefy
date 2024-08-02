@@ -5,23 +5,23 @@ import { CgOptions } from "react-icons/cg";
 const Container = styled.div`
   width: 76vw;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   border-bottom: 1px solid #e9e9eb;
-  margin-bottom: 2rem;
+  gap: 2rem;
 `;
 const RestroNo = styled.h2`
-  font-size: 4rem;
+  font-size: 3rem;
   @media(max-width: 768px) {
     display: none;
   }
 `;
 const Unorder = styled.ul`
   display: flex;
+  gap: 2rem;
 `;
 const List = styled.li`
   list-style: none;
-  padding: 2rem;
+  //padding: 2rem;
   font-size: 2.2rem;
   display: flex;
   align-items: center;
@@ -51,12 +51,13 @@ const FilterLog = styled.span`
   color: orange;
 `;
 
-function FilterNav({totalRestaurant}) {
+function FilterNav({title, filter}) {
   return (
     <Container>
-        <RestroNo>{totalRestaurant} restaurants</RestroNo>
+        <RestroNo>{title?.title}</RestroNo>
         <Unorder>
-          <List>Relevance</List>
+          {/* {filter?.facetList?.} */}
+          {/* <List>Relevance</List>
           <List>Delivery Time</List>
           <List>Rating</List>
           <List>Cost: Low To High</List>
@@ -66,7 +67,7 @@ function FilterNav({totalRestaurant}) {
             <FilterLog>
               <CgOptions />
             </FilterLog>
-          </List>
+          </List> */}
         </Unorder>
       </Container>
   )

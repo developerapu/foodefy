@@ -3,6 +3,8 @@ import HomePage from "../pages/home";
 import SearchCom from "../components/SearchCom";
 import Body from "../components/Body";
 import App from "../App";
+import RestauMenuPage from "../components/RestauMenupage'/RestauMenuPage";
+import ItemTypeRestaurant from "../components/ItemTypeRestaurant/ItemTypeRestaurant";
 //import LocationCom from "../components/LocationCom";
 
 export const AppRoutes = createBrowserRouter([
@@ -22,6 +24,14 @@ export const AppRoutes = createBrowserRouter([
             path: "*",
             element: <App/>
           },
+          {
+            path: "/restaurants/:resId",
+            element: <RestauMenuPage/>
+          },
+          {
+            path:"/food/collection/id=/:foodId/restaurants",
+            element: <ItemTypeRestaurant/>
+         },
         ]
       },
 ]);

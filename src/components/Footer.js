@@ -4,7 +4,7 @@ import DwnloadGBtn from "../assets/images/Download-GBtn.webp";
 import DwnloadPlayBtn from "../assets/images/Download-App-Btn.webp";
 import { CgFacebook, CgInstagram, CgTwitter } from "react-icons/cg";
 import { AppContext } from "../context/AppContext";
-import DownArrow from "../assets/images/DownArrow.svg";
+import DownArrowWhite from "../assets/images/DownArrowWhite.svg";
 import App from "../App";
 
 const Container = styled.div`
@@ -251,7 +251,7 @@ function Footer() {
           <CityDropDown onClick={() => setShowSAllCities(!showAllCities)}>
             <Para>{cities?.length} cities</Para>
             <DownArrowImg
-              src={DownArrow}
+              src={DownArrowWhite}
               alt=""
               showAllCities={showAllCities}
             />

@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Para } from '../../../constant/ConstantStyledCom';
 import { IMG_CDN } from '../../../config';
+import { useAxios } from '../../../networks/axios';
 
 const Container = styled.div`
-width: 30rem;
+width: 20rem;
 cursor: pointer;
 `;
 const CuisineImg = styled.img`
@@ -15,7 +16,6 @@ function CuisinesCard({data}) {
   return (
     <Container>
         <CuisineImg src={`${IMG_CDN + data?.imageId}`} alt="" />
-        <Para></Para>
     </Container>
   )
 }
